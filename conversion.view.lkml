@@ -20,7 +20,8 @@ view: conversion {
           drv.*,
           v.*,
           year(sysdate) - year_of_registration as vehicle_age,
-          c.cover_start_dt - to_date(c.quote_dttm) as leadtime
+          c.cover_start_dt - to_date(c.quote_dttm) as leadtime,
+          ra.pi_rated_area
         FROM
             (select *
              from
@@ -128,6 +129,14 @@ view: conversion {
   dimension: ph_gender {
     type: string
     sql: ${TABLE}.ph_gender ;;
+  }
+
+  dimension: pi_area {
+    type: tier
+    tiers: [10,20,30,40,50,60]
+    style: integer
+    sql: ${TABLE}.pi_rated_area ;;
+
   }
 
   dimension: ncb {
