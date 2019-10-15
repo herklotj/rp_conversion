@@ -16,12 +16,16 @@ view: conversion {
           s.sale_timestamp,
           m.rct_mi_13 as scheme_number,
           case when max(cast(substr(c.rct_modelnumber,23,3),int)) over() = cast(substr(c.rct_modelnumber,23,3),int) then 1 else 0 end as is_most_recent_model,
-          postal_area
+          postal_area,
+          drv.*,
+          v.*,
+          year(sysdate) - year_of_registration as vehicle_age,
+          c.cover_start_dt - to_date(c.quote_dttm) as leadtime
         FROM
             (select *
              from
                 qs_cover
-             WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 3
+             WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 2
              and motor_transaction_type = 'NewBusiness' and business_purpose = '' and rct_noquote_an = 0
              ) c
         LEFT JOIN hourly_sales s
@@ -30,6 +34,29 @@ view: conversion {
           on c.quote_id = m.quote_id
         left join rated_areas ra
           on replace(c.risk_postcode,' ','') =ra.postcode
+        inner join
+          ( select
+              quote_id
+              ,min(floor( (to_date(quote_dttm) - birth_dt)/365)) as Min_age
+              ,min( case when driver_id = 0 then floor( (to_date(quote_dttm) - birth_dt)/365) else 9999 end) as PH_Age
+              ,min( case when driver_id = 0 then ncb_years else 9999 end) as NCB
+              ,min( case when driver_id = 0 then gender else null end) as PH_gender
+              ,sum(no_claims) as Policy_Claims
+              ,sum(no_convictions) as Policy_Convictions
+            from
+              qs_drivers
+            WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 2
+            group by quote_id
+          )drv
+          on c.quote_id = drv.quote_id
+        inner join
+          (select
+              *
+           from
+              qs_vehicles
+           WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 2
+          ) v
+          on v.quote_id=c.quote_id
      ;;
   }
 
@@ -75,15 +102,87 @@ view: conversion {
 
   dimension: quoted_premium {
     type: tier
-    tiers: [0,100,150,200,250,300,350,400,500,750]
+    tiers: [150,250,350,450]
     style: integer
     sql: ${TABLE}.quoted_premium ;;
     value_format_name: gbp
   }
 
+  dimension: min_age {
+    type: tier
+    tiers: [25,30,40,50,60,70]
+    style: integer
+    sql: ${TABLE}.min_age ;;
+
+  }
+
+
+  dimension: ph_age {
+    type: tier
+    tiers: [25,30,40,50,60,70]
+    style: integer
+    sql: ${TABLE}.ph_age ;;
+
+  }
+
+  dimension: ph_gender {
+    type: string
+    sql: ${TABLE}.ph_gender ;;
+  }
+
+  dimension: ncb {
+    type: tier
+    tiers: [1,3,7,9]
+    style: integer
+    sql: ${TABLE}.ncb ;;
+
+  }
+
+  dimension: vehicle_age {
+    type: tier
+    tiers: [1,4,8,12]
+    style: integer
+    sql: ${TABLE}.vehicle_age ;;
+
+  }
+
+  dimension: vehicle_value {
+    type: tier
+    tiers: [1000,3000,6000,10000,15000,20000,30000,50000]
+    style: integer
+    sql: ${TABLE}.vehicle_value_amount ;;
+
+  }
+
+  dimension: leadtime {
+    type: tier
+    tiers: [1,5,10,15]
+    style: integer
+    sql: ${TABLE}.leadtime ;;
+
+  }
+
+  dimension: policy_claims {
+    type: tier
+    tiers: [1,2]
+    style: integer
+    sql: ${TABLE}.policy_claims ;;
+
+  }
+
+  dimension: policy_convictions {
+    type: tier
+    tiers: [1,2]
+    style: integer
+    sql: ${TABLE}.policy_convictions ;;
+
+  }
+
   dimension: member_score_unbanded {
     label: "Member Score"
-    type: number
+    type: tier
+    tiers: [0,0.75,0.8,0.9,1.0,1.1,1.2,1.3]
+    style: relational
     sql: ${TABLE}.member_score_unbanded ;;
   }
 
