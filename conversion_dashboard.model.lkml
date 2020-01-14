@@ -11,3 +11,4 @@ datagroup: conversion_dashboard_default_datagroup {
 persist_with: conversion_dashboard_default_datagroup
 
 explore: conversion {}
+explore: confused_market_data {}

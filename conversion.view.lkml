@@ -8,6 +8,7 @@ view: conversion {
           case when c.protect_no_claims_bonus = 'false' then c.riskpremium_an else c.riskpremium_ap end as risk_premium,
           case when c.protect_no_claims_bonus = 'false' then c.quotedpremium_an_notinclipt else c.quotedpremium_ap_notinclipt end as quoted_premium,
           c.member_score_unbanded,
+          ifnull(c.initial_quote_to_inception,-1) as initial_quote_to_inception,
           to_timestamp(c.cover_start_dt) as cover_start_dttm,
           c.consumer_name,
           c.originator_name,
@@ -60,6 +61,17 @@ view: conversion {
           on v.quote_id=c.quote_id
      ;;
   }
+
+
+  dimension: digital_rehost {
+  type: string
+  sql: case when quote_dttm >='2019-11-08' and quote_dttm <'2019-11-15' then 'Post Rehost 7 days'
+            when quote_dttm >='2019-11-01' and quote_dttm <'2019-11-08' then 'Pre Rehost 7 days'
+            else 'Other' end;;
+
+
+  }
+
 
   dimension_group: quote {
     type: time
@@ -168,6 +180,14 @@ view: conversion {
     tiers: [1,5,10,15]
     style: integer
     sql: ${TABLE}.leadtime ;;
+
+  }
+
+  dimension: initial_leadtime {
+    type: tier
+    tiers: [0,1,10,15,30]
+    style: integer
+    sql: ${TABLE}.initial_quote_to_inception ;;
 
   }
 
