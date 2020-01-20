@@ -58,6 +58,11 @@
       sql: originator_name ;;
     }
 
+    dimension: leadtime {
+      type: number
+      sql: cover_start_dt - to_date(quote_date) ;;
+    }
+
 
     measure: Quotes {
       type: count
