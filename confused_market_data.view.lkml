@@ -101,4 +101,10 @@
       value_format_name: decimal_2
     }
 
+    measure: Model_Price_V_Market_Price{
+      type: number
+      sql: ${Market_Model_Premium}/${Market_Top5_Quoted_Premium} ;;
+      value_format_name: decimal_2
+    }
+
 }
