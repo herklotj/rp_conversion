@@ -27,8 +27,8 @@ view: conversion {
             (select *
              from
                 qs_cover
-             WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 2
-             and motor_transaction_type = 'NewBusiness' and business_purpose = '' and rct_noquote_an = 0
+             WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 24
+             AND motor_transaction_type = 'NewBusiness' and business_purpose = '' and rct_noquote_an = 0
              ) c
         LEFT JOIN hourly_sales s
           on c.quote_id = s.insurer_quote_ref
@@ -47,7 +47,7 @@ view: conversion {
               ,sum(no_convictions) as Policy_Convictions
             from
               qs_drivers
-            WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 2
+            WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 24
             group by quote_id
           )drv
           on c.quote_id = drv.quote_id
@@ -56,7 +56,7 @@ view: conversion {
               *
            from
               qs_vehicles
-           WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 2
+           WHERE quote_dttm < sysdate and months_between(to_date(sysdate),quote_dttm) <= 24
           ) v
           on v.quote_id=c.quote_id
      ;;

@@ -4,10 +4,19 @@
               q.quote_dttm as quote_date,
               cover_start_dt,
               m.rct_mi_13 as scheme_number,
-              q.quotedpremium_ap_notinclipt as AAUICL_Premium,
+              q.quotedpremium_an_notinclipt as AAUICL_Premium,
               m.rct_mi_14 as market_model,
               c.top5annual as confused_prem_top5annual,
-              originator_name
+              originator_name,
+
+CASE
+               WHEN live_member = 'N' AND ass_live_member = 'Y' AND q.quote_dttm > '2016-07-19 14:40:00' THEN 'Associate Member'
+               WHEN live_member = 'N' AND home_history <> 'C' AND home_history <> 'X' AND tenure_current > 0 THEN 'Ex-Member'
+               WHEN live_member = 'N' AND home_history IN ('C','X') THEN 'Non Member Home'
+               WHEN live_member = 'Y' THEN 'Standard_Member'
+               WHEN live_member = 'N' THEN 'Other Non_Member'
+               ELSE 'Other Non_Member'
+             END AS MemberType
 
             from qs_cover q
             join qs_mi_outputs m
@@ -16,11 +25,13 @@
             join confused_cover c
               on q.customer_quote_reference = c.quotereference
               and to_date(q.quote_dttm) = c.quotedate
+              left join actian.insight ins
+              on q.customer_key = ins.customer_key
             where q.motor_transaction_type = 'NewBusiness'
               and q.business_purpose = ''
               and q.rct_noquote_an = 0
               and to_date(sysdate) > cover_start_dt
-              and q.quote_dttm >= '2019-01-01'
+              and q.quote_dttm >= '2017-01-01'
 
      ;;
     }
@@ -63,6 +74,11 @@
       sql: cover_start_dt - to_date(quote_date) ;;
     }
 
+    dimension: member_type {
+      type: string
+      sql: ${TABLE}.MemberType ;;
+      }
+
 
     measure: Quotes {
       type: count
@@ -100,6 +116,12 @@
       sql: ${Market_Top5_Quoted_Premium}/${AAUICL_Quoted_Premium} ;;
       value_format_name: decimal_2
     }
+
+    measure: AA_vs_Market{
+      type:  number
+      sql: ${AAUICL_Quoted_Premium}/${Market_Top5_Quoted_Premium} ;;
+      value_format_name: decimal_2
+      }
 
     measure: Model_Price_V_Market_Price{
       type: number
