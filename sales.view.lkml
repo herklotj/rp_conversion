@@ -1,3 +1,4 @@
+
 view: sales {
   derived_table: {
     sql: SELECT
@@ -31,7 +32,7 @@ view: sales {
              and motor_transaction_type = 'NewBusiness' and business_purpose = '' and rct_noquote_an = 0
              ) c
         LEFT JOIN hourly_sales s
-          on c.quote_id = s.insurer_quote_ref
+          on lower(c.quote_id) = lower(s.insurer_quote_ref)
         LEFT JOIN qs_mi_outputs m
           on c.quote_id = m.quote_id
         left join rated_areas ra
