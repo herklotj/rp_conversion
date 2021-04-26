@@ -22,7 +22,160 @@ view: conversion {
           v.*,
           year(sysdate) - year_of_registration as vehicle_age,
           c.cover_start_dt - to_date(c.quote_dttm) as leadtime,
-          ra.pi_rated_area
+          ra.pi_rated_area,
+           CASE WHEN to_date(c.quote_dttm) >= '2021-04-21' THEN 'NEW' ELSE 'OLD' END AS model_type,
+          CASE
+           WHEN riskpremium_an / rct_mi_14 < 0.2 THEN '<0.2'
+           WHEN 0.2 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.22 THEN '>=0.2 AND <0.22'
+           WHEN 0.22 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.24 THEN '>=0.22 AND <0.24'
+           WHEN 0.24 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.26 THEN '>=0.24 AND <0.26'
+           WHEN 0.26 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.28 THEN '>=0.26 AND <0.28'
+           WHEN 0.28 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.30 THEN '>=0.28 AND <0.30'
+           WHEN 0.30 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.32 THEN '>=0.30 AND <0.32'
+           WHEN 0.32 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.34 THEN '>=0.32 AND <0.34'
+           WHEN 0.34 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.36 THEN '>=0.34 AND <0.36'
+           WHEN 0.36 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.38 THEN '>=0.36 AND <0.38'
+           WHEN 0.38 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.40 THEN '>=0.38 AND <0.40'
+           WHEN 0.40 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.42 THEN '>=0.40 AND <0.42'
+           WHEN 0.42 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.44 THEN '>=0.42 AND <0.44'
+           WHEN 0.44 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.46 THEN '>=0.44 AND <0.46'
+           WHEN 0.46 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.48 THEN '>=0.46 AND <0.48'
+           WHEN 0.48 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.50 THEN '>=0.48 AND <0.50'
+           WHEN 0.50 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.52 THEN '>=0.50 AND <0.52'
+           WHEN 0.52 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.54 THEN '>=0.52 AND <0.54'
+           WHEN 0.54 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.56 THEN '>=0.54 AND <0.56'
+           WHEN 0.56 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.58 THEN '>=0.56 AND <0.58'
+           WHEN 0.58 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.60 THEN '>=0.58 AND <0.60'
+           WHEN 0.60 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.62 THEN '>=0.60 AND <0.62'
+           WHEN 0.62 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.64 THEN '>=0.62 AND <0.64'
+           WHEN 0.64 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.66 THEN '>=0.64 AND <0.66'
+           WHEN 0.66 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.68 THEN '>=0.66 AND <0.68'
+           WHEN 0.68 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.70 THEN '>=0.68 AND <0.70'
+           WHEN 0.70 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.72 THEN '>=0.70 AND <0.72'
+           WHEN 0.72 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.74 THEN '>=0.72 AND <0.74'
+           WHEN 0.74 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.76 THEN '>=0.74 AND <0.76'
+           WHEN 0.76 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.78 THEN '>=0.76 AND <0.78'
+           WHEN 0.78 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.80 THEN '>=0.78 AND <0.80'
+           WHEN 0.80 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.82 THEN '>=0.80 AND <0.82'
+           WHEN 0.82 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.84 THEN '>=0.82 AND <0.84'
+           WHEN 0.84 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.86 THEN '>=0.84 AND <0.86'
+           WHEN 0.86 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.88 THEN '>=0.86 AND <0.88'
+           WHEN 0.88 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.90 THEN '>=0.88 AND <0.90'
+           WHEN 0.90 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.92 THEN '>=0.90 AND <0.92'
+           WHEN 0.92 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.94 THEN '>=0.92 AND <0.94'
+           WHEN 0.94 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.96 THEN '>=0.94 AND <0.96'
+           WHEN 0.96 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 0.98 THEN '>=0.96 AND <0.98'
+           WHEN 0.98 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.00 THEN '>=0.98 AND <1.00'
+           WHEN 1.00 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.02 THEN '>=1.00 AND <1.02'
+           WHEN 1.02 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.04 THEN '>=1.02 AND <1.04'
+           WHEN 1.04 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.06 THEN '>=1.04 AND <1.06'
+           WHEN 1.06 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.08 THEN '>=1.06 AND <1.08'
+           WHEN 1.08 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.10 THEN '>=1.08 AND <1.10'
+           WHEN 1.10 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.12 THEN '>=1.10 AND <1.12'
+           WHEN 1.12 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.14 THEN '>=1.12 AND <1.14'
+           WHEN 1.14 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.16 THEN '>=1.14 AND <1.16'
+           WHEN 1.16 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.18 THEN '>=1.16 AND <1.18'
+           WHEN 1.18 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.20 THEN '>=1.18 AND <1.20'
+       WHEN 1.20 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.22 THEN '>=1.20 AND <1.22'
+           WHEN 1.22 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.24 THEN '>=1.22 AND <1.24'
+           WHEN 1.24 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.26 THEN '>=1.24 AND <1.26'
+           WHEN 1.26 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.28 THEN '>=1.26 AND <1.28'
+           WHEN 1.28 <= riskpremium_an / rct_mi_14 AND riskpremium_an / rct_mi_14 < 1.30 THEN '>=1.28 AND <1.30'
+           WHEN riskpremium_an / rct_mi_14 >= 1.30 THEN '>=1.30'
+         END AS rp_mkt_bands,
+        CASE WHEN quotedpremium_ap_notinclipt / rct_mi_14 < 0.2 THEN '<0.2'
+           WHEN 0.2 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.22 THEN '>=0.2 AND <0.22'
+           WHEN 0.22 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.24 THEN '>=0.22 AND <0.24'
+           WHEN 0.24 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.26 THEN '>=0.24 AND <0.26'
+           WHEN 0.26 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.28 THEN '>=0.26 AND <0.28'
+           WHEN 0.28 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.30 THEN '>=0.28 AND <0.30'
+           WHEN 0.30 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.32 THEN '>=0.30 AND <0.32'
+           WHEN 0.32 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.34 THEN '>=0.32 AND <0.34'
+           WHEN 0.34 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.36 THEN '>=0.34 AND <0.36'
+           WHEN 0.36 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.38 THEN '>=0.36 AND <0.38'
+           WHEN 0.38 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.40 THEN '>=0.38 AND <0.40'
+           WHEN 0.40 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.42 THEN '>=0.40 AND <0.42'
+           WHEN 0.42 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.44 THEN '>=0.42 AND <0.44'
+           WHEN 0.44 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.46 THEN '>=0.44 AND <0.46'
+           WHEN 0.46 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.48 THEN '>=0.46 AND <0.48'
+           WHEN 0.48 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.50 THEN '>=0.48 AND <0.50'
+           WHEN 0.50 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.52 THEN '>=0.50 AND <0.52'
+           WHEN 0.52 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.54 THEN '>=0.52 AND <0.54'
+           WHEN 0.54 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.56 THEN '>=0.54 AND <0.56'
+           WHEN 0.56 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.58 THEN '>=0.56 AND <0.58'
+           WHEN 0.58 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.60 THEN '>=0.58 AND <0.60'
+           WHEN 0.60 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.62 THEN '>=0.60 AND <0.62'
+           WHEN 0.62 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.64 THEN '>=0.62 AND <0.64'
+           WHEN 0.64 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.66 THEN '>=0.64 AND <0.66'
+           WHEN 0.66 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.68 THEN '>=0.66 AND <0.68'
+           WHEN 0.68 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.70 THEN '>=0.68 AND <0.70'
+           WHEN 0.70 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.72 THEN '>=0.70 AND <0.72'
+           WHEN 0.72 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.74 THEN '>=0.72 AND <0.74'
+           WHEN 0.74 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.76 THEN '>=0.74 AND <0.76'
+           WHEN 0.76 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.78 THEN '>=0.76 AND <0.78'
+           WHEN 0.78 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.80 THEN '>=0.78 AND <0.80'
+           WHEN 0.80 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.82 THEN '>=0.80 AND <0.82'
+           WHEN 0.82 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.84 THEN '>=0.82 AND <0.84'
+           WHEN 0.84 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.86 THEN '>=0.84 AND <0.86'
+           WHEN 0.86 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.88 THEN '>=0.86 AND <0.88'
+           WHEN 0.88 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.90 THEN '>=0.88 AND <0.90'
+           WHEN 0.90 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.92 THEN '>=0.90 AND <0.92'
+           WHEN 0.92 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.94 THEN '>=0.92 AND <0.94'
+           WHEN 0.94 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.96 THEN '>=0.94 AND <0.96'
+           WHEN 0.96 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 0.98 THEN '>=0.96 AND <0.98'
+           WHEN 0.98 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.00 THEN '>=0.98 AND <1.00'
+           WHEN 1.00 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.02 THEN '>=1.00 AND <1.02'
+           WHEN 1.02 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.04 THEN '>=1.02 AND <1.04'
+           WHEN 1.04 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.06 THEN '>=1.04 AND <1.06'
+           WHEN 1.06 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.08 THEN '>=1.06 AND <1.08'
+           WHEN 1.08 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.10 THEN '>=1.08 AND <1.10'
+           WHEN 1.10 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.12 THEN '>=1.10 AND <1.12'
+           WHEN 1.12 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.14 THEN '>=1.12 AND <1.14'
+           WHEN 1.14 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.16 THEN '>=1.14 AND <1.16'
+           WHEN 1.16 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.18 THEN '>=1.16 AND <1.18'
+           WHEN 1.18 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.20 THEN '>=1.18 AND <1.20'
+       WHEN 1.20 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.22 THEN '>=1.20 AND <1.22'
+           WHEN 1.22 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.24 THEN '>=1.22 AND <1.24'
+           WHEN 1.24 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.26 THEN '>=1.24 AND <1.26'
+           WHEN 1.26 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.28 THEN '>=1.26 AND <1.28'
+           WHEN 1.28 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.30 THEN '>=1.28 AND <1.30'
+       WHEN 1.30 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.32 THEN '>=1.30 AND <1.32'
+           WHEN 1.32 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.34 THEN '>=1.32 AND <1.34'
+           WHEN 1.34 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.36 THEN '>=1.34 AND <1.36'
+           WHEN 1.36 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.38 THEN '>=1.36 AND <1.38'
+           WHEN 1.38 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.40 THEN '>=1.38 AND <1.40'
+       WHEN 1.40 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.42 THEN '>=1.40 AND <1.42'
+           WHEN 1.42 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.44 THEN '>=1.42 AND <1.44'
+           WHEN 1.44 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.46 THEN '>=1.44 AND <1.46'
+           WHEN 1.46 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.48 THEN '>=1.46 AND <1.48'
+           WHEN 1.48 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.50 THEN '>=1.48 AND <1.50'
+       WHEN 1.50 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.52 THEN '>=1.50 AND <1.52'
+           WHEN 1.52 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.54 THEN '>=1.52 AND <1.54'
+           WHEN 1.54 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.56 THEN '>=1.54 AND <1.56'
+           WHEN 1.56 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.58 THEN '>=1.56 AND <1.58'
+           WHEN 1.58 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.60 THEN '>=1.58 AND <1.60'
+       WHEN 1.60 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.62 THEN '>=1.60 AND <1.62'
+           WHEN 1.62 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.64 THEN '>=1.62 AND <1.64'
+           WHEN 1.64 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.66 THEN '>=1.64 AND <1.66'
+           WHEN 1.66 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.68 THEN '>=1.66 AND <1.68'
+           WHEN 1.68 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.70 THEN '>=1.68 AND <1.60'
+       WHEN 1.70 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.72 THEN '>=1.70 AND <1.72'
+           WHEN 1.72 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.74 THEN '>=1.72 AND <1.74'
+           WHEN 1.74 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.76 THEN '>=1.74 AND <1.76'
+           WHEN 1.76 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.78 THEN '>=1.76 AND <1.78'
+           WHEN 1.78 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.80 THEN '>=1.78 AND <1.80'
+       WHEN 1.80 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.82 THEN '>=1.80 AND <1.82'
+           WHEN 1.82 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.84 THEN '>=1.82 AND <1.84'
+           WHEN 1.84 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.86 THEN '>=1.84 AND <1.86'
+           WHEN 1.86 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.88 THEN '>=1.86 AND <1.88'
+           WHEN 1.88 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.90 THEN '>=1.88 AND <1.90'
+       WHEN 1.90 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.92 THEN '>=1.90 AND <1.92'
+           WHEN 1.92 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.94 THEN '>=1.92 AND <1.94'
+           WHEN 1.94 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.96 THEN '>=1.94 AND <1.96'
+           WHEN 1.96 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 1.98 THEN '>=1.96 AND <1.98'
+           WHEN 1.98 <= quotedpremium_ap_notinclipt / rct_mi_14 AND quotedpremium_ap_notinclipt / rct_mi_14 < 2.00 THEN '>=1.98 AND <2.00'
+           WHEN quotedpremium_ap_notinclipt / rct_mi_14 >= 2.0 THEN '>=2.0'
+         END AS qp_mkt_bands
         FROM
             (select *
              from
@@ -71,6 +224,24 @@ view: conversion {
 
 
     }
+
+  dimension: model_type {
+    type:  string
+    sql: model_type ;;
+  }
+
+  dimension: rp_market_bands {
+    label: "Risk Premium by Market Ratio"
+    type: string
+    sql: ${TABLE}.rp_mkt_bands ;;
+  }
+
+  dimension: qp_market_bands {
+    label: "Quoted Premium by Market Ratio"
+    type: string
+    sql: ${TABLE}.qp_mkt_bands ;;
+  }
+
 
 
     dimension_group: quote {
