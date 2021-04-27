@@ -1,6 +1,7 @@
 view: confused_market_data {
   derived_table: {
     sql: select
+    q.quote_id,
               q.quote_dttm as quote_date,
               cover_start_dt,
               m.rct_mi_13 as scheme_number,
@@ -143,6 +144,11 @@ view: confused_market_data {
       year
     ]
     sql: ${TABLE}.cover_start_dt ;;
+  }
+
+  dimension: quote_id {
+    type:  string
+    sql:quote_id  ;;
   }
 
   dimension: scheme {

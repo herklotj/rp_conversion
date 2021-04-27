@@ -16,6 +16,8 @@ view: conversion {
           c.rct_modelnumber,
           s.sale_timestamp,
           m.rct_mi_13 as scheme_number,
+          m.rct_mi_14 as predicted_market_premium,
+          c.margin,
           case when max(cast(substr(c.rct_modelnumber,23,3),int)) over() = cast(substr(c.rct_modelnumber,23,3),int) then 1 else 0 end as is_most_recent_model,
           postal_area,
           drv.*,
@@ -224,6 +226,11 @@ view: conversion {
 
 
     }
+
+  dimension: quote_id {
+    type:  string
+    sql: quote_id ;;
+  }
 
   dimension: model_type {
     type:  string
@@ -487,12 +494,28 @@ view: conversion {
       description: "Quote and purchase on same day"
     }
 
+  measure: average_risk_premium {
+    type: average
+    sql:  ${TABLE}.risk_premium ;;
+    value_format_name: gbp_0
+  }
 
     measure: average_quoted_premium {
       type: average
       sql:  ${TABLE}.quoted_premium ;;
       value_format_name: gbp_0
     }
+
+  measure: average_predicted_market_premium {
+    type: average
+    sql:  ${TABLE}.predicted_market_premium ;;
+    value_format_name: gbp_0
+  }
+
+  measure: margin {
+    type: average
+    sql:  ${TABLE}.margin ;;
+  }
 
     measure: average_written_premium {
       type: average
