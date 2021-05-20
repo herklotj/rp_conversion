@@ -25,7 +25,7 @@ view: conversion {
           year(sysdate) - year_of_registration as vehicle_age,
           c.cover_start_dt - to_date(c.quote_dttm) as leadtime,
           ra.pi_rated_area,
-           CASE WHEN to_date(c.quote_dttm) >= '2021-04-21'  AND marginpricetest_indicator_desc = '26: Aug18' THEN 'NEW (26)' WHEN to_date(c.quote_dttm) >= '2021-04-28' AND marginpricetest_indicator_desc = '32: NM Jul18 - New Margin' THEN 'NEW (32)'ELSE 'OLD' END AS model_type,
+           CASE WHEN to_date(c.quote_dttm) >= '2021-04-21'  AND marginpricetest_indicator_desc = '26: Aug18' THEN 'NEW (26)' WHEN to_date(c.quote_dttm) >= '2021-04-28' AND marginpricetest_indicator_desc = '32: NM Jul18 - New Margin' THEN 'NEW (32)' WHEN to_date(c.quote_dttm) >= '2021-05-14' AND marginpricetest_indicator_desc = '33: M July19' THEN 'NEW (33)' ELSE 'OLD' END AS model_type,
           CASE
            WHEN case when c.protect_no_claims_bonus = 'false' then c.riskpremium_an else c.riskpremium_ap end / rct_mi_14 < 0.2 THEN '<0.2'
            WHEN 0.2 <= case when c.protect_no_claims_bonus = 'false' then c.riskpremium_an else c.riskpremium_ap end / rct_mi_14 AND case when c.protect_no_claims_bonus = 'false' then c.riskpremium_an else c.riskpremium_ap end / rct_mi_14 < 0.22 THEN '>=0.2 AND <0.22'
