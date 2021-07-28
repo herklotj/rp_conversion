@@ -13,3 +13,4 @@ persist_with: conversion_dashboard_default_datagroup
 explore: conversion {}
 explore: confused_market_data {}
 explore: sales {}
+explore: conversion_tree {}
