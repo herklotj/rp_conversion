@@ -77,7 +77,7 @@ AND to_date(CASE
      sql: ${TABLE}.group ;;
    }
 
-
+ #to test github
 
   dimension_group: quote {
     type: time
