@@ -10,7 +10,7 @@ view: confused_market_data {
               c.top5annual as confused_prem_top5annual,
               originator_name,
               marginpricetest_indicator_desc,
-              CASE WHEN to_date(q.quote_dttm) >= '2021-05-14' AND marginpricetest_indicator_desc = '26: Aug18' THEN 'NEW(26 - MI)' WHEN to_date(q.quote_dttm) >= '2021-04-21'  AND marginpricetest_indicator_desc = '26: Aug18' THEN 'NEW (26)' WHEN to_date(q.quote_dttm) >= '2021-04-28' AND marginpricetest_indicator_desc = '32: NM Jul18 - New Margin' THEN 'NEW (32)' WHEN to_date(q.quote_dttm) >= '2021-05-14' AND marginpricetest_indicator_desc = '33: M July19' THEN 'NEW (33)' WHEN to_date(q.quote_dttm) >= '2021-05-21'  AND marginpricetest_indicator_desc = '35: NM July 19' THEN 'NEW (35)' ELSE 'OLD' END AS model_type,
+              CASE WHEN marginpricetest_indicator_desc = '38: NM Dec 19' THEN 'NEW(38)' WHEN to_date(q.quote_dttm) >= '2021-05-14' AND marginpricetest_indicator_desc = '26: Aug18' THEN 'NEW(26 - MI)' WHEN to_date(q.quote_dttm) >= '2021-04-21'  AND marginpricetest_indicator_desc = '26: Aug18' THEN 'NEW (26)' WHEN to_date(q.quote_dttm) >= '2021-04-28' AND marginpricetest_indicator_desc = '32: NM Jul18 - New Margin' THEN 'NEW (32)' WHEN to_date(q.quote_dttm) >= '2021-05-14' AND marginpricetest_indicator_desc = '33: M July19' THEN 'NEW (33)' WHEN to_date(q.quote_dttm) >= '2021-05-21'  AND marginpricetest_indicator_desc = '35: NM July 19' THEN 'NEW (35)' ELSE 'OLD' END AS model_type,
              CASE
            WHEN top5annual / rct_mi_14 < 0.2 THEN '<0.2'
            WHEN 0.2 <= top5annual / rct_mi_14 AND top5annual / rct_mi_14 < 0.22 THEN '>=0.2 AND <0.22'

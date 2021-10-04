@@ -1,4 +1,4 @@
- view: conversion_tree {
+view: conversion_tree_expoclm {
    # Or, you could make this view a derived table, like this:
    derived_table: {
      sql: SELECT CASE
@@ -54,19 +54,12 @@
          ELSE to_date (quote_date)
        END AS conversion_date,
       *
-FROM aapricing.v_rating_factors_for_machine_learning rf
+FROM aapricing.v_rating_factors_for_machine_learning_expoclm rf
  LEFT JOIN hourly_sales sal ON LOWER (rf.quote_id) = LOWER (sal.insurer_quote_ref)
 WHERE to_date(quote_date) != '2999-12-31'
-AND rmoqr1_motortransactiontype1 = 'NewBusiness'
-AND business_purpose = ' '
-AND (to_date(SYSDATE) - to_date(CASE
-         WHEN sale_timestamp IS NOT NULL THEN to_date (sale_timestamp)
-         ELSE to_date (quote_date)
-       END)) <= 60
-AND to_date(CASE
-         WHEN sale_timestamp IS NOT NULL THEN to_date (sale_timestamp)
-         ELSE to_date (quote_date)
-       END) > '2021-06-29'
+/*AND rmoqr1_motortransactiontype1 = 'NewBusiness'
+AND business_purpose = ' '*/
+
 
        ;;
    }
@@ -87,10 +80,25 @@ AND to_date(CASE
       hour_of_day,
       date,
       week,
-      month
+      month,
+      year
     ]
     sql: CAST (${TABLE}.conversion_date AS TIMESTAMP);;
     }
+
+  dimension_group: exposure_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      hour_of_day,
+      date,
+      week,
+      month,
+      year
+    ]
+    sql: CAST (${TABLE}.exposure_start AS TIMESTAMP);;
+  }
 
     dimension: min_licence_years {
       type: number
@@ -100,11 +108,6 @@ AND to_date(CASE
   dimension: min_licence_years_high {
     type: number
     sql: CASE WHEN ${TABLE}.min_licence_years < 26.5 THEN 1 ELSE 0 END ;;
-  }
-
-  dimension: scheme_number {
-    type:  string
-    sql: ${TABLE}.scheme_number ;;
   }
 
     measure: total_quotes {
@@ -127,4 +130,45 @@ AND to_date(CASE
       sql: 1.0*${total_sales}/${total_quotes} ;;
       value_format_name: percent_2
     }
+
+    measure: exposure {
+      type: sum
+      sql: ${TABLE}.evy ;;
+    }
+
+    measure: earned_premium {
+      type: sum
+      sql: ${TABLE}.eprem;;
+    }
+
+    measure: total_incurred_cap_25k {
+      type: sum
+      sql: ${TABLE}.total_incurred_cap_25k ;;
+    }
+
+  measure: total_incurred_cap_50k {
+    type: sum
+    sql: ${TABLE}.total_incurred_cap_50k ;;
+  }
+
+  measure: total_incurred {
+    type: sum
+    sql: ${TABLE}.total_incurred ;;
+  }
+
+  measure: total_count {
+    type: sum
+    sql: ${TABLE}.total_count ;;
+  }
+
+  measure: total_count_exc_ws {
+    type: sum
+    sql: ${TABLE}.total_count_exc_ws ;;
+  }
+
+  measure: fault_frequency {
+    type: number
+    sql: ${total_count_exc_ws}/nullif(${exposure},0) ;;
+    value_format_name: percent_1
+  }
  }
