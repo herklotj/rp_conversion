@@ -4,7 +4,7 @@ view: confused_market_data {
     q.quote_id,
               q.quote_dttm as quote_date,
               cover_start_dt,
-              m.rct_mi_13 as scheme_number,
+              CASE WHEN m.rct_mi_13 = '102' then 'Members' WHEN m.rct_mi_13 = '103' then 'Non-Members' WHEN m.rct_mi_13 = '173' then 'Smart' ELSE m.rct_mi_13 end as scheme_number,
               q.quotedpremium_ap_notinclipt as AAUICL_Premium,
               m.rct_mi_14 as market_model,
               c.top5annual as confused_prem_top5annual,
