@@ -16,7 +16,9 @@ view: sales {
           c.rct_noquote_an,
           c.rct_modelnumber,
           s.sale_timestamp,
-          m.rct_mi_13 as scheme_number,
+          CASE WHEN m.rct_mi_13 = '102' then 'Members' WHEN
+          m.rct_mi_13 = '103' then 'Non Members' WHEN
+          m.rct_mi_13 = '173' then 'Smart' end ELSE m.rct_mi_13 as scheme_number,
           case when max(cast(substr(c.rct_modelnumber,23,3),int)) over() = cast(substr(c.rct_modelnumber,23,3),int) then 1 else 0 end as is_most_recent_model,
           postal_area,
           drv.*,
